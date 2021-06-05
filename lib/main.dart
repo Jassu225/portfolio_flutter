@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rapid_hyre/src/routerHandler/root/rootRouterDataAndConfig.dart';
 import 'package:rapid_hyre/src/routerHandler/root/rootRouterDelegate.dart';
-// import 'package:rapid_hyre/src/routerHandler/root/rootRouterProvider.dart';
+import 'configure_nonweb.dart' if (dart.library.html) 'configure_web.dart';
 
 void main() {
+  configureApp();
   runApp(MyApp());
 }
 

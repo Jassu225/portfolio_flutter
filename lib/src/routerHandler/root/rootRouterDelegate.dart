@@ -35,7 +35,7 @@ class RootRouterDelegate extends RouterDelegate<RouteConfig>
       return MaterialPage(child: getPageInstance());
     }).toList();
     return Navigator(
-        key: _navigatorKey,
+        key: UniqueKey(),
         pages: pages,
         onPopPage: (route, result) {
           if (!route.didPop(result)) {
