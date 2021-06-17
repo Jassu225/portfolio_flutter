@@ -53,7 +53,7 @@ class RouteConfig {
   String _getUrl(String path, Map<String, String> query) {
     final uri = Uri.parse(path);
     final queryMap = {...query};
-    print(uri.path);
+    // print(uri.path);
     String url = uri.pathSegments.map((segment) {
       final match = _regExp.firstMatch(segment);
       if (match != null) {
@@ -72,9 +72,8 @@ class RouteConfig {
 // #endregion
 
 class RootNavigatorState extends ChangeNotifier {
-  late final _pathsList = <RouteConfig>[
-    // RouteConfig(path: routeNamePathMap.home)
-  ];
+  final _initialPath = routeNamePathMap.home;
+  late final _pathsList = <RouteConfig>[RouteConfig(path: _initialPath)];
 
   List<RouteConfig> get paths => _pathsList;
 
@@ -105,13 +104,16 @@ class RootRouteInformationParser extends RouteInformationParser<RouteConfig> {
   @override
   Future<RouteConfig> parseRouteInformation(
       RouteInformation routeInformation) async {
-    final location = routeInformation.location ?? routeNamePathMap.home;
+    print('parse route - ${routeInformation.location}');
+    if (routeInformation.location == null) return RouteConfig(path: '');
+    final location = routeInformation.location!;
     final uri = Uri.parse(location);
     return RouteConfig(path: location, query: uri.queryParameters);
   }
 
   @override
   RouteInformation restoreRouteInformation(RouteConfig routeConfig) {
+    print('restore route - ${routeConfig.asPath}');
     return RouteInformation(location: routeConfig.asPath);
   }
 }

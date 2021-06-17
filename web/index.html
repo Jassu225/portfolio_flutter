@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -25,12 +26,21 @@
 
   <title>rapid_hyre</title>
   <link rel="manifest" href="manifest.json">
+  <style>
+    html,
+    body {
+      margin: 0;
+    }
+  </style>
 </head>
+
 <body>
+  <script src="js/splash-screen.js"></script>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
   <script>
+    showSplashScreen();
     var serviceWorkerVersion = null;
     var scriptLoaded = false;
     function loadMainDartJs() {
@@ -42,6 +52,9 @@
       scriptTag.src = 'main.dart.js';
       scriptTag.type = 'application/javascript';
       document.body.append(scriptTag);
+      scriptTag.onload = function () {
+        setTimeout(hideSplashScreen, 5000);
+      };
     }
 
     if ('serviceWorker' in navigator) {
@@ -95,4 +108,5 @@
     }
   </script>
 </body>
+
 </html>

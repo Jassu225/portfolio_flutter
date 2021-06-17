@@ -12,9 +12,7 @@ class RootRouterDelegate extends RouterDelegate<RouteConfig>
         Provider.of<RootNavigatorState>(context, listen: false);
   }
   get navigatorKey => _navigatorKey;
-
   RouteConfig get currentConfiguration => rootNavigatorState.paths.last;
-
   @override
   Future<void> setNewRoutePath(RouteConfig newPathConfig) async {
     final int index = rootNavigatorState.paths
@@ -34,6 +32,7 @@ class RootRouterDelegate extends RouterDelegate<RouteConfig>
       final getPageInstance = pathWidgetTypeMap[pathConfig.path]!;
       return MaterialPage(child: getPageInstance());
     }).toList();
+    print('router delegate build -- ${paths.map((e) => e.asPath)}');
     return Navigator(
         key: UniqueKey(),
         pages: pages,
