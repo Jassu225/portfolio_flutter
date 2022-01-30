@@ -27,13 +27,13 @@ class FadeInMoveUpWidget extends StatelessWidget {
       end: 1,
     ).animate(CurvedAnimation(
         parent: controller,
-        curve: Interval(intervalBegin, intervalEnd, curve: Curves.easeOut)));
+        curve: Interval(intervalBegin, intervalEnd, curve: Curves.easeInOut)));
 
     _position = Tween<Offset>(begin: const Offset(0, 0.75), end: Offset.zero)
         .animate(CurvedAnimation(
             parent: controller,
             curve:
-                Interval(intervalBegin, intervalEnd, curve: Curves.easeOut)));
+                Interval(intervalBegin, intervalEnd, curve: Curves.easeInOut)));
   }
 
   @override
@@ -66,11 +66,12 @@ class _LandingSectionContent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             FadeInMoveUpWidget(
-                child: Text('Hello World!', style: headline4Theme),
-                height: 50,
-                controller: controller,
-                intervalBegin: 0,
-                intervalEnd: 0.3),
+              child: Text('Hello World!', style: headline4Theme),
+              height: 50,
+              controller: controller,
+              intervalBegin: 0,
+              intervalEnd: 0.3,
+            ),
             const SizedBox(height: 8),
             FadeInMoveUpWidget(
                 height: 100,

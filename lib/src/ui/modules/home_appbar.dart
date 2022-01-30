@@ -25,14 +25,27 @@ class HomePageAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final appBarTheme = Theme.of(context).appBarTheme;
-    return AppBar(
-      title: Text('Jaswanth Sai', style: appBarTheme.titleTextStyle),
-      actions: [
-        AppBarTextButton(onPressed: () {}, child: Text('About me')),
-        AppBarTextButton(onPressed: () {}, child: Text('Works')),
-        AppBarTextButton(onPressed: () {}, child: Text('GitHub')),
-        AppBarTextButton(onPressed: () {}, child: Text('Contact me'))
-      ],
+    return Material(
+      elevation: 4,
+      child: Container(
+        color: appBarTheme.backgroundColor,
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 1200),
+            child: AppBar(
+              elevation: 0,
+              title: Text('Jaswanth Sai Sattenapalli',
+                  style: appBarTheme.titleTextStyle),
+              actions: [
+                AppBarTextButton(onPressed: () {}, child: Text('About me')),
+                AppBarTextButton(onPressed: () {}, child: Text('Works')),
+                AppBarTextButton(onPressed: () {}, child: Text('GitHub')),
+                AppBarTextButton(onPressed: () {}, child: Text('Contact me'))
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
