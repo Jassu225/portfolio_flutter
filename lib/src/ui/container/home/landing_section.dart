@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:rapid_hyre/src/ui/elements/text.dart' as CustomText;
 
 class FadeInMoveUpWidget extends StatelessWidget {
   final AnimationController controller;
@@ -53,20 +53,21 @@ class _LandingSectionContent extends StatelessWidget {
   Widget build(BuildContext context) {
     // print('build landing_section content');
     final theme = Theme.of(context);
-    final textTheme = Theme.of(context).textTheme;
-    final headline4Theme =
-        textTheme.headline4?.copyWith(fontWeight: FontWeight.normal);
-    final headline2Theme = textTheme.headline2;
+    final size = MediaQuery.of(context).size;
     return AnimatedBuilder(
       animation: controller,
       builder: (_, __) {
         // print('animated build landing_section content');
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: size.width > 800
+              ? CrossAxisAlignment.start
+              : CrossAxisAlignment.center,
           children: [
             FadeInMoveUpWidget(
-              child: Text('Hello World!', style: headline4Theme),
+              child: CustomText.Text('Hello World!',
+                  variant: CustomText.Variant.H4,
+                  style: TextStyle(fontWeight: FontWeight.normal)),
               height: 50,
               controller: controller,
               intervalBegin: 0,
@@ -76,10 +77,11 @@ class _LandingSectionContent extends StatelessWidget {
             FadeInMoveUpWidget(
                 height: 100,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('I\'m ', style: headline2Theme),
-                    Text('Jaswanth',
-                        style: headline2Theme?.copyWith(
+                    CustomText.Text('I\'m '),
+                    CustomText.Text('Jaswanth',
+                        style: TextStyle(
                             color: theme.primaryColor,
                             fontWeight: FontWeight.w600))
                   ],
@@ -89,10 +91,7 @@ class _LandingSectionContent extends StatelessWidget {
                 intervalEnd: 0.65),
             FadeInMoveUpWidget(
                 height: 100,
-                child: Text(
-                  'A web enthusiast',
-                  style: headline2Theme,
-                ),
+                child: CustomText.Text('A web enthusiast'),
                 controller: controller,
                 intervalBegin: 0.7,
                 intervalEnd: 1)
@@ -152,24 +151,31 @@ class LandingSection extends StatelessWidget {
   Widget build(BuildContext context) {
     // print('landing section');
     // final sectionContentWidth = _getContentContainerWidth(context);
+    final children = [
+      Container(
+        // margin: EdgeInsets.only(right: 60),
+        child: _AnimatedLandingSectionContent(),
+      ),
+      Container(
+          child: Lottie.asset('assets/lottie/developer.json',
+              animate: true,
+              repeat: true,
+              reverse: true,
+              width: 400,
+              height: 400)),
+    ];
+    final size = MediaQuery.of(context).size;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 32, vertical: 40),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            // margin: EdgeInsets.only(right: 60),
-            child: _AnimatedLandingSectionContent(),
-          ),
-          Container(
-              child: Lottie.asset('assets/lottie/developer.json',
-                  animate: true,
-                  repeat: true,
-                  reverse: true,
-                  width: 400,
-                  height: 400)),
-        ],
-      ),
+      child: size.width > 800
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: children,
+            )
+          : Column(
+              children: children,
+              mainAxisAlignment: MainAxisAlignment.center,
+            ),
     );
   }
 }

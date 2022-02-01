@@ -8,14 +8,18 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // print('home page');
+    // final primaryColor = Theme.of(context).primaryColor;
     return Scaffold(
       appBar: HomePageAppBar(),
       body: SingleChildScrollView(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 1200),
-            child: Column(
-              children: const [LandingSection(), AboutMe(), Works()],
+        child: Container(
+          // decoration: BoxDecoration(color: primaryColor),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 1200),
+              child: Column(
+                children: const [LandingSection(), AboutMe(), Works()],
+              ),
             ),
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rapid_hyre/src/ui/elements/text.dart' as CustomText;
 
 class AboutMe extends StatelessWidget {
   const AboutMe({
@@ -9,14 +10,14 @@ class AboutMe extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      margin: EdgeInsets.only(top: 40, bottom: 32, left: 24, right: 24),
+      margin: EdgeInsets.only(top: 0, bottom: 32, left: 24, right: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('About Me',
-              style: theme.textTheme.headline3
-                  ?.copyWith(color: theme.textTheme.headline2?.color),
-              textAlign: TextAlign.start),
+          CustomText.Text(
+            'About me',
+            style: TextStyle(color: theme.textTheme.headline2?.color),
+          ),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 48, vertical: 40),
             margin: EdgeInsets.only(top: 16),
