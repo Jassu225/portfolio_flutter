@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rapid_hyre/src/ui/container/home/about_me.dart';
 import 'package:rapid_hyre/src/ui/container/home/works/works.dart';
 import 'package:rapid_hyre/src/ui/modules/home_appbar.dart';
-import 'package:rapid_hyre/src/ui/container/home/landing_section.dart';
+import 'package:rapid_hyre/src/ui/container/home/landing_section_v2.dart';
 
 class HomePage extends StatelessWidget {
   @override

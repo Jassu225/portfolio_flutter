@@ -2,6 +2,50 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:rapid_hyre/src/ui/elements/text.dart' as CustomText;
 
+class Card extends StatelessWidget {
+  final String bgImageSrc;
+  final String description;
+  final AnimationController opacityController;
+  const Card(
+      {Key? key,
+      required this.bgImageSrc,
+      required this.description,
+      required this.opacityController})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Image(image: AssetImage(bgImageSrc)),
+        Positioned.fill(
+            child: AnimatedBuilder(
+                animation: opacityController.view,
+                child: Container(
+                  color: Color(0xCF222222),
+                  padding: const EdgeInsets.all(16),
+                  child: Center(
+                    child: SelectableText(
+                      description,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                builder: (_, child) {
+                  return Opacity(
+                    opacity: opacityController.value,
+                    child: child,
+                  );
+                })),
+      ],
+    );
+  }
+}
+
 class WorkCard extends HookWidget {
   final String bgImageSrc;
   final String description;
@@ -15,8 +59,9 @@ class WorkCard extends HookWidget {
     final opacityController = useAnimationController(
       duration: Duration(milliseconds: 300),
     );
-    final opacityAnimation =
-        Tween(begin: 0.0, end: 1.0).animate(opacityController);
+    final size = MediaQuery.of(context).size;
+    final isLargeDevice = size.width > 800;
+    final runForwards = useRef(true);
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -31,42 +76,36 @@ class WorkCard extends HookWidget {
       // padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(12)),
-        child: MouseRegion(
-          onEnter: (e) {
-            opacityController.forward();
-          },
-          onExit: (e) {
-            opacityController.reverse();
-          },
-          child: Stack(
-            children: [
-              Image(image: AssetImage(bgImageSrc)),
-              Positioned.fill(
-                  child: AnimatedBuilder(
-                      animation: opacityAnimation,
-                      child: Container(
-                        color: Color(0xCF222222),
-                        padding: const EdgeInsets.all(16),
-                        child: Center(
-                          child: SelectableText(
-                            description,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                      builder: (_, child) {
-                        return Opacity(
-                          opacity: opacityAnimation.value,
-                          child: child,
-                        );
-                      })),
-            ],
-          ),
-        ),
+        child: isLargeDevice
+            ? MouseRegion(
+                onEnter: (e) {
+                  opacityController.forward();
+                },
+                onExit: (e) {
+                  opacityController.reverse();
+                },
+                child: Card(
+                  bgImageSrc: bgImageSrc,
+                  description: description,
+                  opacityController: opacityController,
+                ),
+              )
+            : GestureDetector(
+                onTap: () {
+                  if (runForwards.value) {
+                    opacityController.forward();
+                    runForwards.value = false;
+                  } else {
+                    opacityController.reverse();
+                    runForwards.value = true;
+                  }
+                },
+                child: Card(
+                  bgImageSrc: bgImageSrc,
+                  description: description,
+                  opacityController: opacityController,
+                ),
+              ),
       ),
     );
   }
